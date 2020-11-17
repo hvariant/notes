@@ -151,3 +151,17 @@ example usage:
 nix-build
 nix-shell
 ```
+
+### changing LD_LIBRARY_PATH
+
+```
+with import <nixpkgs> {};
+
+stdenv.mkDerivation rec {
+  name = "dev";
+  buildInputs = [
+    openssl
+  ];
+  LD_LIBRARY_PATH="${stdenv.cc.cc.lib}/lib64:$LD_LIBRARY_PATH";
+}
+```

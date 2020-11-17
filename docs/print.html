@@ -274,6 +274,17 @@ in
 <pre><code>nix-build
 nix-shell
 </code></pre>
+<h3><a class="header" href="#changing-ld_library_path" id="changing-ld_library_path">changing LD_LIBRARY_PATH</a></h3>
+<pre><code>with import &lt;nixpkgs&gt; {};
+
+stdenv.mkDerivation rec {
+  name = &quot;dev&quot;;
+  buildInputs = [
+    openssl
+  ];
+  LD_LIBRARY_PATH=&quot;${stdenv.cc.cc.lib}/lib64:$LD_LIBRARY_PATH&quot;;
+}
+</code></pre>
 
                     </main>
 
