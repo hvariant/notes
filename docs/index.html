@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Chapter 1 - Notes</title>
+        <title>NixOS - Notes</title>
         
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Chapter 1</a></li></ol>
+                <ol class="chapter"><li class="expanded "><a href="nixos.html"><strong aria-hidden="true">1.</strong> NixOS</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -148,7 +148,130 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#chapter-1" id="chapter-1">Chapter 1</a></h1>
+                        <h1><a class="header" href="#nixos" id="nixos">NixOS</a></h1>
+<h2><a class="header" href="#maintenance" id="maintenance">maintenance</a></h2>
+<p>upgrade:</p>
+<pre><code>$ nix-channel --add https://nixos.org/channels/nixos-20.09 nixos
+$ nix-channel --update
+$ nixos-rebuild --upgrade switch
+</code></pre>
+<p>clean up old generations:</p>
+<pre><code>$ sudo nix-collect-garbage -d
+</code></pre>
+<h2><a class="header" href="#shellnix-snippets" id="shellnix-snippets">shell.nix snippets</a></h2>
+<h3><a class="header" href="#choosing-channels" id="choosing-channels">choosing channels</a></h3>
+<p>system default channel:</p>
+<pre><code>with import &lt;nixpkgs&gt; {};
+</code></pre>
+<p>alternatively:</p>
+<pre><code>let
+  pkgs = import &lt;nixpkgs&gt; {};
+
+# ...
+</code></pre>
+<p>choosing a specific branch/channel:</p>
+<pre><code>let
+  nixpkgs = import (builtins.fetchGit {
+    name = &quot;nixos-19.09&quot;;
+    url = https://github.com/nixos/nixpkgs/;
+    ref = &quot;nixos-19.09&quot;;
+  }) {};
+
+# ...
+</code></pre>
+<h3><a class="header" href="#creating-an-environment" id="creating-an-environment">creating an environment</a></h3>
+<p>making derivation:</p>
+<pre><code>let
+  nixpkgs = import &lt;nixpkgs&gt; {};
+in
+  nixpkgs.stdenv.mkDerivation {
+    name = &quot;derivation&quot;;
+    buildInputs = [ nixpkgs.ghc ];
+  }
+</code></pre>
+<p>making shell:</p>
+<pre><code>let
+  nixpkgs = import &lt;nixpkgs&gt; {};
+in
+  nixpkgs.mkShell {
+    name = &quot;shell-hook&quot;;
+
+    buildInputs = [
+      nixpkgs.python3
+    ];
+
+    shellHook = ''
+      python
+    '';
+  }
+</code></pre>
+<h3><a class="header" href="#haskell" id="haskell">haskell</a></h3>
+<p>see <a href="https://github.com/Gabriel439/haskell-nix">this guide</a>.</p>
+<h3><a class="header" href="#how-to-build-traditional-unix-directory-structure" id="how-to-build-traditional-unix-directory-structure">how to build traditional unix directory structure</a></h3>
+<p>See <a href="https://sid-kap.github.io/posts/2018-03-08-nix-pipenv.html">this post</a> for reference.</p>
+<p>default.nix:</p>
+<pre><code>let
+
+  nixpkgs = import &lt;nixpkgs&gt; {};
+
+  manyLinuxFile =
+    nixpkgs.writeTextDir &quot;_manylinux.py&quot;
+      ''
+        print(&quot;in _manylinux.py&quot;)
+        manylinux1_compatible = True
+      '';
+
+in
+
+  nixpkgs.buildFHSUserEnv {
+    name = &quot;python-manylinux&quot;;
+    targetPkgs = pkgs: with pkgs; [
+      python3
+      pipenv
+      which
+      gcc
+      binutils
+
+      # All the C libraries that a manylinux_1 wheel might depend on:
+      ncurses
+      xorg.libX11
+      xorg.libXext
+      xorg.libXrender
+      xorg.libICE
+      xorg.libSM
+      glib
+    ];
+
+    profile = ''
+      export PYTHONPATH=${manyLinuxFile.out}:/usr/lib/python3.7/site-packages
+    '';
+
+    runScript = &quot;bash&quot;;
+  }
+</code></pre>
+<p>shell.nix:</p>
+<pre><code>let
+
+  nixpkgs = import &lt;nixpkgs&gt; {};
+
+in
+
+  nixpkgs.mkShell {
+    name = &quot;python-manylinux&quot;;
+
+    shellHook = ''
+      if [ ! -f result/bin/python-manylinux ]; then
+        echo &quot;please run nix-build&quot;
+        exit 1
+      fi
+      $PWD/result/bin/python-manylinux
+    '';
+  }
+</code></pre>
+<p>example usage:</p>
+<pre><code>nix-build
+nix-shell
+</code></pre>
 
                     </main>
 
