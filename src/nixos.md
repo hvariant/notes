@@ -1,22 +1,28 @@
 # NixOS
 
-## maintenance
+## sysadmin
 
-upgrade:
+### upgrade
+
 ```
 $ nix-channel --add https://nixos.org/channels/nixos-20.09 nixos
 $ nix-channel --update
 $ nixos-rebuild --upgrade switch
 ```
 
-clean up old generations:
+### clean up old generations
+
 ```
 $ sudo nix-collect-garbage -d
 ```
 
-## shell.nix snippets
+### auto start
 
-### choosing channels
+add command to `~/.xprofile`, like [this](https://wiki.archlinux.org/index.php/Xprofile).
+
+## nix-shell
+
+### choosing channels/branches
 
 system default channel:
 ```
@@ -152,7 +158,7 @@ nix-build
 nix-shell
 ```
 
-### changing LD_LIBRARY_PATH
+### changing LD\_LIBRARY\_PATH
 
 ```
 with import <nixpkgs> {};
@@ -165,3 +171,10 @@ stdenv.mkDerivation rec {
   LD_LIBRARY_PATH="${stdenv.cc.cc.lib}/lib64:$LD_LIBRARY_PATH";
 }
 ```
+
+### try out different packages in new shell
+
+```
+> nix-shell -p <package-name>
+```
+

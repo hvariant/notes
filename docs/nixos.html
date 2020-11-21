@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="nixos.html" class="active"><strong aria-hidden="true">1.</strong> NixOS</a></li><li class="expanded "><a href="misc.html"><strong aria-hidden="true">2.</strong> Misc</a></li></ol>
+                <ol class="chapter"><li class="expanded "><a href="linux.html"><strong aria-hidden="true">1.</strong> Linux</a></li><li class="expanded "><a href="nixos.html" class="active"><strong aria-hidden="true">2.</strong> NixOS</a></li><li class="expanded "><a href="misc.html"><strong aria-hidden="true">3.</strong> Misc</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -149,17 +149,19 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#nixos" id="nixos">NixOS</a></h1>
-<h2><a class="header" href="#maintenance" id="maintenance">maintenance</a></h2>
-<p>upgrade:</p>
+<h2><a class="header" href="#sysadmin" id="sysadmin">sysadmin</a></h2>
+<h3><a class="header" href="#upgrade" id="upgrade">upgrade</a></h3>
 <pre><code>$ nix-channel --add https://nixos.org/channels/nixos-20.09 nixos
 $ nix-channel --update
 $ nixos-rebuild --upgrade switch
 </code></pre>
-<p>clean up old generations:</p>
+<h3><a class="header" href="#clean-up-old-generations" id="clean-up-old-generations">clean up old generations</a></h3>
 <pre><code>$ sudo nix-collect-garbage -d
 </code></pre>
-<h2><a class="header" href="#shellnix-snippets" id="shellnix-snippets">shell.nix snippets</a></h2>
-<h3><a class="header" href="#choosing-channels" id="choosing-channels">choosing channels</a></h3>
+<h3><a class="header" href="#auto-start" id="auto-start">auto start</a></h3>
+<p>add command to <code>~/.xprofile</code>, like <a href="https://wiki.archlinux.org/index.php/Xprofile">this</a>.</p>
+<h2><a class="header" href="#nix-shell" id="nix-shell">nix-shell</a></h2>
+<h3><a class="header" href="#choosing-channelsbranches" id="choosing-channelsbranches">choosing channels/branches</a></h3>
 <p>system default channel:</p>
 <pre><code>with import &lt;nixpkgs&gt; {};
 </code></pre>
@@ -283,11 +285,18 @@ stdenv.mkDerivation rec {
   LD_LIBRARY_PATH=&quot;${stdenv.cc.cc.lib}/lib64:$LD_LIBRARY_PATH&quot;;
 }
 </code></pre>
+<h3><a class="header" href="#try-out-different-packages-in-new-shell" id="try-out-different-packages-in-new-shell">try out different packages in new shell</a></h3>
+<pre><code>&gt; nix-shell -p &lt;package-name&gt;
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="linux.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
                         
 
                         
@@ -302,6 +311,10 @@ stdenv.mkDerivation rec {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="linux.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
                 
 
                 

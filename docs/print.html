@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="nixos.html"><strong aria-hidden="true">1.</strong> NixOS</a></li><li class="expanded "><a href="misc.html"><strong aria-hidden="true">2.</strong> Misc</a></li></ol>
+                <ol class="chapter"><li class="expanded "><a href="linux.html"><strong aria-hidden="true">1.</strong> Linux</a></li><li class="expanded "><a href="nixos.html"><strong aria-hidden="true">2.</strong> NixOS</a></li><li class="expanded "><a href="misc.html"><strong aria-hidden="true">3.</strong> Misc</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -150,18 +150,43 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#nixos" id="nixos">NixOS</a></h1>
-<h2><a class="header" href="#maintenance" id="maintenance">maintenance</a></h2>
-<p>upgrade:</p>
+                        <h1><a class="header" href="#linux-general" id="linux-general">Linux General</a></h1>
+<h2><a class="header" href="#i3-without-de" id="i3-without-de">i3 without DE</a></h2>
+<h3><a class="header" href="#default-applications" id="default-applications">default applications</a></h3>
+<p>finding out about the mime-type of files:</p>
+<pre><code>&gt; file --mime-type &lt;file&gt;
+</code></pre>
+<p>setting default application:</p>
+<pre><code>&gt; xdg-mime default pcmanfm.desktop inode/directory
+</code></pre>
+<h2><a class="header" href="#useful-scripts" id="useful-scripts">useful scripts</a></h2>
+<h3><a class="header" href="#mouse-jiggle" id="mouse-jiggle">mouse jiggle</a></h3>
+<pre><code>#!/usr/bin/env bash
+LENGTH=10
+DELAY=5
+while true
+do
+    for ANGLE in 0 90 180 270
+    do
+        xdotool mousemove_relative --polar $ANGLE $LENGTH
+        sleep $DELAY
+    done
+done
+</code></pre>
+<h1><a class="header" href="#nixos" id="nixos">NixOS</a></h1>
+<h2><a class="header" href="#sysadmin" id="sysadmin">sysadmin</a></h2>
+<h3><a class="header" href="#upgrade" id="upgrade">upgrade</a></h3>
 <pre><code>$ nix-channel --add https://nixos.org/channels/nixos-20.09 nixos
 $ nix-channel --update
 $ nixos-rebuild --upgrade switch
 </code></pre>
-<p>clean up old generations:</p>
+<h3><a class="header" href="#clean-up-old-generations" id="clean-up-old-generations">clean up old generations</a></h3>
 <pre><code>$ sudo nix-collect-garbage -d
 </code></pre>
-<h2><a class="header" href="#shellnix-snippets" id="shellnix-snippets">shell.nix snippets</a></h2>
-<h3><a class="header" href="#choosing-channels" id="choosing-channels">choosing channels</a></h3>
+<h3><a class="header" href="#auto-start" id="auto-start">auto start</a></h3>
+<p>add command to <code>~/.xprofile</code>, like <a href="https://wiki.archlinux.org/index.php/Xprofile">this</a>.</p>
+<h2><a class="header" href="#nix-shell" id="nix-shell">nix-shell</a></h2>
+<h3><a class="header" href="#choosing-channelsbranches" id="choosing-channelsbranches">choosing channels/branches</a></h3>
 <p>system default channel:</p>
 <pre><code>with import &lt;nixpkgs&gt; {};
 </code></pre>
@@ -284,6 +309,9 @@ stdenv.mkDerivation rec {
   ];
   LD_LIBRARY_PATH=&quot;${stdenv.cc.cc.lib}/lib64:$LD_LIBRARY_PATH&quot;;
 }
+</code></pre>
+<h3><a class="header" href="#try-out-different-packages-in-new-shell" id="try-out-different-packages-in-new-shell">try out different packages in new shell</a></h3>
+<pre><code>&gt; nix-shell -p &lt;package-name&gt;
 </code></pre>
 <h1><a class="header" href="#misc" id="misc">Misc</a></h1>
 <h3><a class="header" href="#css-that-shakes-the-entire-page" id="css-that-shakes-the-entire-page">css that shakes the entire page</a></h3>
