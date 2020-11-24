@@ -160,8 +160,8 @@ in
 
 example usage:
 ```
-nix-build
-nix-shell
+> nix-build
+> nix-shell
 ```
 
 ### changing LD\_LIBRARY\_PATH
@@ -180,7 +180,13 @@ stdenv.mkDerivation rec {
 
 ### try out different packages in new shell
 
+using system default channel
 ```
 > nix-shell -p <package-name>
+```
+
+using another official channel
+```
+> nix-shell -I nixpkgs=channel:nixos-unstable -p <package-name>
 ```
 

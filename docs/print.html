@@ -186,11 +186,13 @@ $ nixos-rebuild --upgrade switch
 </code></pre>
 <h3><a class="header" href="#auto-start" id="auto-start">auto start</a></h3>
 <p>add command to <code>~/.xprofile</code>, like <a href="https://wiki.archlinux.org/index.php/Xprofile">this</a>.</p>
-<h3><a class="header" href="#use-master-branch-for-user-packages" id="use-master-branch-for-user-packages">use master branch for user packages</a></h3>
 <h2><a class="header" href="#nix-shell" id="nix-shell">nix-shell</a></h2>
 <h3><a class="header" href="#choosing-channelsbranches" id="choosing-channelsbranches">choosing channels/branches</a></h3>
 <p>system default channel:</p>
 <pre><code>with import &lt;nixpkgs&gt; {};
+</code></pre>
+<p>other system/user channels:</p>
+<pre><code>with import &lt;unstable&gt; {};
 </code></pre>
 <p>alternatively:</p>
 <pre><code>let
@@ -298,8 +300,8 @@ in
   }
 </code></pre>
 <p>example usage:</p>
-<pre><code>nix-build
-nix-shell
+<pre><code>&gt; nix-build
+&gt; nix-shell
 </code></pre>
 <h3><a class="header" href="#changing-ld_library_path" id="changing-ld_library_path">changing LD_LIBRARY_PATH</a></h3>
 <pre><code>with import &lt;nixpkgs&gt; {};
@@ -313,7 +315,11 @@ stdenv.mkDerivation rec {
 }
 </code></pre>
 <h3><a class="header" href="#try-out-different-packages-in-new-shell" id="try-out-different-packages-in-new-shell">try out different packages in new shell</a></h3>
+<p>using system default channel</p>
 <pre><code>&gt; nix-shell -p &lt;package-name&gt;
+</code></pre>
+<p>using another official channel</p>
+<pre><code>&gt; nix-shell -I nixpkgs=channel:nixos-unstable -p &lt;package-name&gt;
 </code></pre>
 <h1><a class="header" href="#misc" id="misc">Misc</a></h1>
 <h3><a class="header" href="#css-that-shakes-the-entire-page" id="css-that-shakes-the-entire-page">css that shakes the entire page</a></h3>
