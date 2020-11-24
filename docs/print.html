@@ -176,6 +176,7 @@ done
 <h1><a class="header" href="#nixos" id="nixos">NixOS</a></h1>
 <h2><a class="header" href="#sysadmin" id="sysadmin">sysadmin</a></h2>
 <h3><a class="header" href="#upgrade" id="upgrade">upgrade</a></h3>
+<p>edit <code>system.stateVersion</code> in /etc/nixos/configuration, then</p>
 <pre><code>$ nix-channel --add https://nixos.org/channels/nixos-20.09 nixos
 $ nix-channel --update
 $ nixos-rebuild --upgrade switch
@@ -185,6 +186,7 @@ $ nixos-rebuild --upgrade switch
 </code></pre>
 <h3><a class="header" href="#auto-start" id="auto-start">auto start</a></h3>
 <p>add command to <code>~/.xprofile</code>, like <a href="https://wiki.archlinux.org/index.php/Xprofile">this</a>.</p>
+<h3><a class="header" href="#use-master-branch-for-user-packages" id="use-master-branch-for-user-packages">use master branch for user packages</a></h3>
 <h2><a class="header" href="#nix-shell" id="nix-shell">nix-shell</a></h2>
 <h3><a class="header" href="#choosing-channelsbranches" id="choosing-channelsbranches">choosing channels/branches</a></h3>
 <p>system default channel:</p>

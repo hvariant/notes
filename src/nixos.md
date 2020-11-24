@@ -4,6 +4,7 @@
 
 ### upgrade
 
+edit `system.stateVersion` in /etc/nixos/configuration, then
 ```
 $ nix-channel --add https://nixos.org/channels/nixos-20.09 nixos
 $ nix-channel --update
@@ -27,6 +28,11 @@ add command to `~/.xprofile`, like [this](https://wiki.archlinux.org/index.php/X
 system default channel:
 ```
 with import <nixpkgs> {};
+```
+
+other system/user channels:
+```
+with import <unstable> {};
 ```
 
 alternatively:
