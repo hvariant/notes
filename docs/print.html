@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="linux.html"><strong aria-hidden="true">1.</strong> Linux</a></li><li class="expanded "><a href="nixos.html"><strong aria-hidden="true">2.</strong> NixOS</a></li><li class="expanded "><a href="misc.html"><strong aria-hidden="true">3.</strong> Misc</a></li></ol>
+                <ol class="chapter"><li class="expanded "><a href="general.html"><strong aria-hidden="true">1.</strong> General</a></li><li class="expanded "><a href="linux.html"><strong aria-hidden="true">2.</strong> Linux</a></li><li class="expanded "><a href="nixos.html"><strong aria-hidden="true">3.</strong> NixOS</a></li><li class="expanded "><a href="misc.html"><strong aria-hidden="true">4.</strong> Misc</a></li><li class="expanded "><a href="k8s.html"><strong aria-hidden="true">5.</strong> Kubernetes</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -150,7 +150,11 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#linux-general" id="linux-general">Linux General</a></h1>
+                        <h1><a class="header" href="#general" id="general">General</a></h1>
+<h2><a class="header" href="#firefox" id="firefox">Firefox</a></h2>
+<h3><a class="header" href="#cancel-quick-find" id="cancel-quick-find">cancel quick find</a></h3>
+<p>Ctrl-F again to focus on the search bar, then ESC to cancel</p>
+<h1><a class="header" href="#linux-general" id="linux-general">Linux General</a></h1>
 <h2><a class="header" href="#i3-without-de" id="i3-without-de">i3 without DE</a></h2>
 <h3><a class="header" href="#default-applications" id="default-applications">default applications</a></h3>
 <p>finding out about the mime-type of files:</p>
@@ -445,6 +449,47 @@ body {
  animation-iteration-count:infinite;
  animation-timing-function:linear
 }
+</code></pre>
+<h1><a class="header" href="#kubernetes" id="kubernetes">Kubernetes</a></h1>
+<h2><a class="header" href="#set-up-local-cluster" id="set-up-local-cluster">set up local cluster</a></h2>
+<p><a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/">Reference</a></p>
+<p>Follow the instructions <a href="https://github.com/hvariant/container.training/tree/update-prepare-local/prepare-local">here</a>
+to spin up five VMs:</p>
+<pre><code>vagrant up
+ansible-playbook provision.yml
+</code></pre>
+<p>then on node1:</p>
+<ul>
+<li>initialise control plane and set api server address</li>
+</ul>
+<pre><code>kubeadm init --apiserver-advertise-address=10.10.10.10
+</code></pre>
+<ul>
+<li>setup kubectl</li>
+</ul>
+<pre><code>mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+</code></pre>
+<ul>
+<li>install weave:</li>
+</ul>
+<pre><code>kubectl apply -f &quot;https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')&quot;
+</code></pre>
+<ul>
+<li>set up <a href="https://stackoverflow.com/a/42896637">routing</a>:</li>
+</ul>
+<pre><code>route add 10.96.0.1 gw 10.10.10.10
+</code></pre>
+<ul>
+<li>join from other nodes:</li>
+</ul>
+<pre><code>kubeadm join 10.10.10.10:&lt;control-plane-port&gt; --token &lt;token&gt; \
+        --discovery-token-ca-cert-hash sha256:&lt;hash&gt;
+</code></pre>
+<h2><a class="header" href="#access-cluster-ip-from-outside-minikube" id="access-cluster-ip-from-outside-minikube">access cluster ip from outside minikube</a></h2>
+<pre><code># local port 8888 -&gt; pod 80
+kubectl port-forward --address localhost pod/hasher-ccc9f44ff-f46nm 8888:80
 </code></pre>
 
                     </main>
