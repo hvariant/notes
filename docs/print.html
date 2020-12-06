@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="general.html"><strong aria-hidden="true">1.</strong> General</a></li><li class="expanded "><a href="linux.html"><strong aria-hidden="true">2.</strong> Linux</a></li><li class="expanded "><a href="nixos.html"><strong aria-hidden="true">3.</strong> NixOS</a></li><li class="expanded "><a href="misc.html"><strong aria-hidden="true">4.</strong> Misc</a></li><li class="expanded "><a href="k8s.html"><strong aria-hidden="true">5.</strong> Kubernetes</a></li></ol>
+                <ol class="chapter"><li class="expanded "><a href="general.html"><strong aria-hidden="true">1.</strong> General</a></li><li class="expanded "><a href="linux.html"><strong aria-hidden="true">2.</strong> Linux</a></li><li class="expanded "><a href="nixos.html"><strong aria-hidden="true">3.</strong> NixOS</a></li><li class="expanded "><a href="misc.html"><strong aria-hidden="true">4.</strong> Misc</a></li><li class="expanded "><a href="k8s.html"><strong aria-hidden="true">5.</strong> Kubernetes</a></li><li class="expanded "><a href="emacs.html"><strong aria-hidden="true">6.</strong> Emacs</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -491,6 +491,27 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 <pre><code># local port 8888 -&gt; pod 80
 kubectl port-forward --address localhost pod/hasher-ccc9f44ff-f46nm 8888:80
 </code></pre>
+<h1><a class="header" href="#emacs" id="emacs">Emacs</a></h1>
+<h2><a class="header" href="#org-mode" id="org-mode">Org mode</a></h2>
+<h3><a class="header" href="#summing-over-column" id="summing-over-column">summing over column</a></h3>
+<p>make the table:</p>
+<pre><code>| title                                     | price |
+|-------------------------------------------+-------|
+| leviathan and air-pump                    | 41.43 |
+| the social construction of reality        | 23.60 |
+| protestant ethic and spirit of capitalism | 28.16 |
+|-------------------------------------------+-------|
+| total                                     |       |
+</code></pre>
+<p>then move the cursor to the <code>price</code> column of the <code>total</code> row
+and type:</p>
+<pre><code>C-c =
+vsum(@I..@II)
+</code></pre>
+<p>which will add the following formula to the bottom of the table:</p>
+<pre><code>#+TBLFM: $2=vsum(@I..@II)
+</code></pre>
+<p>to refresh, redo <code>C-c =</code> and use the same formula from auto-complete.</p>
 
                     </main>
 
