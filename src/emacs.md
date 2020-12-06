@@ -28,3 +28,12 @@ which will add the following formula to the bottom of the table:
 ```
 
 to refresh, redo `C-c =` and use the same formula from auto-complete.
+
+## General Usage
+
+### killing multiple buffers
+
+Open \*Buffers list\* using `ls`, then mark buffers to kill using `d`.
+Use normal evil commands to navigate the list.
+
+Once finished, press `x` to commit the changes.
